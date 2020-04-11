@@ -1,11 +1,16 @@
 import 'package:expansemanager/widgets/chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'models/transaction.dart';
 import 'widgets/new_transaction.dart';
 import 'widgets/chart.dart';
 import 'widgets/transaction_list.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -17,13 +22,12 @@ class MyApp extends StatelessWidget {
           errorColor: Colors.red,
           fontFamily: 'Quicksand',
           textTheme: ThemeData.light().textTheme.copyWith(
-              title: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.bold),
-                  button: TextStyle(color: Colors.white), 
-                  ),
-              
+                title: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.bold),
+                button: TextStyle(color: Colors.white),
+              ),
           appBarTheme: AppBarTheme(
             textTheme: ThemeData.light().textTheme.copyWith(
                   title: TextStyle(
@@ -55,7 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'watch',
       amount: 30,
       date: DateTime.now(),
-    ),Transaction(
+    ),
+    Transaction(
       id: 't3',
       title: 'recharge',
       amount: 49,
@@ -66,7 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'books',
       amount: 20,
       date: DateTime.now(),
-    ),Transaction(
+    ),
+    Transaction(
       id: 't5',
       title: 'shirts',
       amount: 67,
@@ -89,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String title, double amount,DateTime chosenDate) {
+  void _addNewTransaction(String title, double amount, DateTime chosenDate) {
     final newTx = Transaction(
       title: title,
       amount: amount,
@@ -114,23 +120,22 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  void _removeTransaction(String id){
+  void _removeTransaction(String id) {
     setState(() {
-    _transactionList.removeWhere((tx)=>tx.id==id);
+      _transactionList.removeWhere((tx) => tx.id == id);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     final appBar = AppBar(
-        title: Text('Weekly Expanses'),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => startAddNewTransaction(context))
-        ],
-      );
+      title: Text('Weekly Expanses'),
+      actions: <Widget>[
+        IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => startAddNewTransaction(context))
+      ],
+    );
 
     return Scaffold(
       appBar: appBar,
@@ -140,13 +145,17 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - 
-              MediaQuery.of(context).padding.top)*0.25,
-              child: Chart(recentTransaction)),
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.25,
+                child: Chart(recentTransaction)),
             Container(
-              height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - 
-              MediaQuery.of(context).padding.top )*0.75,
-              child: TransactionList(_transactionList, _removeTransaction)),
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.75,
+                child: TransactionList(_transactionList, _removeTransaction)),
           ],
         ),
       ),
