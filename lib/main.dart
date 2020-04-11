@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.red,
           accentColor: Colors.yellowAccent,
+          errorColor: Colors.red,
           fontFamily: 'Quicksand',
           textTheme: ThemeData.light().textTheme.copyWith(
               title: TextStyle(
@@ -50,9 +51,31 @@ class _MyHomePageState extends State<MyHomePage> {
       date: DateTime.now(),
     ),
     Transaction(
-      id: 't1',
-      title: 'shoes',
-      amount: 44.44,
+      id: 't2',
+      title: 'watch',
+      amount: 30,
+      date: DateTime.now(),
+    ),Transaction(
+      id: 't3',
+      title: 'recharge',
+      amount: 49,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'books',
+      amount: 20,
+      date: DateTime.now(),
+    ),Transaction(
+      id: 't5',
+      title: 'shirts',
+      amount: 67,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't6',
+      title: 'bedsheet',
+      amount: 80,
       date: DateTime.now(),
     ),
   ];
@@ -91,11 +114,17 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  void _removeTransaction(String id){
+    setState(() {
+    _transactionList.removeWhere((tx)=>tx.id==id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text('Weekly Expanses'),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.add),
@@ -108,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(recentTransaction),
-            TransactionList(_transactionList),
+            TransactionList(_transactionList, _removeTransaction),
           ],
         ),
       ),

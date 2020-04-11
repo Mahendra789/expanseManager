@@ -5,7 +5,7 @@ import './../models/transaction.dart';
 import './chart_bar.dart';
 
 class Chart extends StatelessWidget {
-  List<Transaction> recentTransaction;
+  final List<Transaction> recentTransaction;
 
   Chart(this.recentTransaction);
 
@@ -21,8 +21,6 @@ class Chart extends StatelessWidget {
             recentTransaction[i].date.year == weekday.year)
           totalAmount += recentTransaction[i].amount;
       }
-      print(DateFormat.E().format(weekday));
-      print(totalAmount);
       return {
         'day': DateFormat.E().format(weekday).substring(0, 1),
         'amount': totalAmount
@@ -48,8 +46,10 @@ class Chart extends StatelessWidget {
           children: groupedTransactionValues.map((data) {
             return Flexible(
               fit: FlexFit.tight,
-              child: ChartBar(data['day'], data['amount'],
-                  (data['amount'] as double) / totalSpending),
+              child: ChartBar(
+                data['day'], 
+                data['amount'],
+                totalSpending==0.0?0.0:(data['amount'] as double) / totalSpending),
             );
           }).toList(),
         ),
